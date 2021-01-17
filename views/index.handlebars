@@ -1,20 +1,23 @@
-<h1>Wish Saver</h1>
+<h1>Eat-Da-Burger</h1>
 
-<h3>Save Wishes</h3>
+<button id="abutton">Click Me</button>
 
-<ul>
-  {{#each wishes}}
-  	<li>
-  	   <p>ID: {{this.id}}</p>
-       <p>Wish: {{this.wish}}</p>
-  	</li>
-  {{/each}}
-</ul>
-
+<div>Uneaten</div>
 <div>
-  <form action="/" method="POST">
-  	<textarea type="text" name="wish"></textarea>
+  {{#each allfood}}
+    {{#unless eaten}}
+  	<div>{{this.id}}: {{this.food}}</div> <button>Eat it!</button>
+    {{/unless}}
+  {{/each}}
+</div>
 
-  	<button type="submit">Submit</button>
-  </form>
+<hr/><hr/><hr/>
+
+<div>Already Eaten</div>
+<div>
+  {{#each allfood}}
+    {{#if eaten}}
+  	<del>{{this.id}}: {{this.food}}</del>
+    {{/if}}
+  {{/each}}
 </div>
