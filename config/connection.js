@@ -2,13 +2,16 @@ require('dotenv').config();
 const path = require('path')
 const Database = require(path.join(__dirname, '..', 'lib', 'database'))
 
-const config = {
+const localConfig = {
   host: "localhost",
   port: 3306,
   user: "root",
   password: process.env.MYSQLROOTPASSWORD,
   database: "pets_db"
 }
+
+let config = process.env.JAWSDB_URL || localConfig
+console.info("sqlconfig: " + JSON.stringify(config))
 
 const connection = new Database(config)
 
