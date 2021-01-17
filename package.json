@@ -4,6 +4,7 @@
   "description": "",
   "main": "server.js",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "mysql": "^2.16.0"
   },
   "devDependencies": {},

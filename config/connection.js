@@ -1,19 +1,15 @@
-var mysql = require("mysql");
+require('dotenv').config();
+const path = require('path')
+const Database = require(path.join(__dirname, '..', 'lib', 'database'))
 
-var connection = mysql.createConnection({
+const config = {
   host: "localhost",
   port: 3306,
   user: "root",
-  password: "",
+  password: process.env.MYSQLROOTPASSWORD,
   database: "pets_db"
-});
+}
 
-connection.connect(function(err) {
-  if (err) {
-    console.error("error connecting: " + err.stack);
-    return;
-  }
-  console.log("connected as id " + connection.threadId);
-});
+const connection = new Database(config)
 
 module.exports = connection;

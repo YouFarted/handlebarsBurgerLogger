@@ -2,39 +2,40 @@ var connection = require("./connection.js");
 
 // Object Relational Mapper (ORM)
 
-// The ?? signs are for swapping out table or column names
-// The ? signs are for swapping out other values
-// These help avoid SQL injection
-// https://en.wikipedia.org/wiki/SQL_injection
-var orm = {
-  selectWhere: function(tableInput, colToSearch, valOfCol) {
-    var queryString = "SELECT * FROM ?? WHERE ?? = ?";
-    connection.query(queryString, [tableInput, colToSearch, valOfCol], function(err, result) {
-      if (err) throw err;
-      console.log(result);
-    });
-  },
-  selectAndOrder: function(whatToSelect, table, orderCol) {
-    var queryString = "SELECT ?? FROM ?? ORDER BY ?? DESC";
-    console.log(queryString);
-    connection.query(queryString, [whatToSelect, table, orderCol], function(err, result) {
-      if (err) throw err;
-      console.log(result);
-    });
-  },
-  findWhoHasMost: function(tableOneCol, tableTwoForeignKey, tableOne, tableTwo) {
+async function connect() {
+  return await connection.connect()
+}
+
+async function close() {
+  return await connection.close()
+}
+
+async function selectWhere(tableInput, colToSearch, valOfCol) {
+    var queryString = "SELECT * FROM ?? WHERE ?? = ?"
+    let results = await connection.query(queryString, [tableInput, colToSearch, valOfCol]);
+    console.log(results)
+}
+async function selectAndOrder(whatToSelect, table, orderCol) {
+    var queryString = "SELECT ?? FROM ?? ORDER BY ?? DESC"
+    console.log(queryString)
+    let result = await connection.query(queryString, [whatToSelect, table, orderCol])
+    console.log(result)
+}
+async function findWhoHasMost(tableOneCol, tableTwoForeignKey, tableOne, tableTwo) {
     var queryString =
       "SELECT ??, COUNT(??) AS count FROM ?? LEFT JOIN ?? ON ??.??= ??.id GROUP BY ?? ORDER BY count DESC LIMIT 1";
 
-    connection.query(
+    let result = await connection.query(
       queryString,
-      [tableOneCol, tableOneCol, tableOne, tableTwo, tableTwo, tableTwoForeignKey, tableOne, tableOneCol],
-      function(err, result) {
-        if (err) throw err;
-        console.log(result);
-      }
-    );
-  }
-};
+      [tableOneCol, tableOneCol, tableOne, tableTwo, tableTwo, tableTwoForeignKey, tableOne, tableOneCol]
+    )
+    console.log(result)
+}
+var orm = {}
+orm.connect        = connect
+orm.close          = close
+orm.selectWhere    = selectWhere
+orm.selectAndOrder = selectAndOrder
+orm.findWhoHasMost = findWhoHasMost
 
 module.exports = orm;
