@@ -34,8 +34,13 @@ app.listen(PORT, function() {
 // this isn't called anymore, but I want the code as sample code for when I do start
 // to use my orm
 async function main() {
+    //await orm.query("DROP DATABASE IF EXISTS pets_db;")
+    
+    
     await orm.seedFrom("./db/schema.sql")
     await orm.seedFrom("./db/seeds.sql")
+    
+    await orm.usePetsDatabase()
     // Find all the pets ordering by the lowest price to the highest price.
     await orm.selectAndOrder("animal_name", "pets", "price");
 

@@ -6,6 +6,10 @@ async function connect() {
   return await connection.connect()
 }
 
+async function usePetsDatabase(){
+  await connection.query("USE pets_db")
+}
+
 async function close() {
   return await connection.close()
 }
@@ -36,11 +40,12 @@ async function findWhoHasMost(tableOneCol, tableTwoForeignKey, tableOne, tableTw
     console.log(result)
 }
 var orm = {}
-orm.connect        = connect
-orm.close          = close
-orm.seedFrom       = seedFrom
-orm.selectWhere    = selectWhere
-orm.selectAndOrder = selectAndOrder
-orm.findWhoHasMost = findWhoHasMost
+orm.connect         = connect
+orm.close           = close
+orm.seedFrom        = seedFrom
+orm.selectWhere     = selectWhere
+orm.selectAndOrder  = selectAndOrder
+orm.findWhoHasMost  = findWhoHasMost
+orm.usePetsDatabase = usePetsDatabase
 
 module.exports = orm;

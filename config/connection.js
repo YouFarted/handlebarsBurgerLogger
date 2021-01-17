@@ -7,7 +7,7 @@ const localConfig = {
   port: 3306,
   user: "root",
   password: process.env.MYSQLROOTPASSWORD,
-  database: "pets_db"
+  database: "sys"
 }
 
 let config = process.env.JAWSDB_URL || localConfig
