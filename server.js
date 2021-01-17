@@ -1,7 +1,10 @@
-var orm = require("./config/orm.js")
+"use strict"
+const path = require('path')
+const orm = require("./config/orm.js")
 const express = require("express")
 const exphbs = require("express-handlebars")
 
+/*
 var app = express();
 
 var PORT = process.env.PORT || 8080;
@@ -26,11 +29,13 @@ app.post("/", function(req, res) {
 app.listen(PORT, function() {
     console.log("App listening on PORT " + PORT);
   });
-
+*/
 
 // this isn't called anymore, but I want the code as sample code for when I do start
 // to use my orm
 async function main() {
+    await orm.seedFrom("./db/schema.sql")
+    await orm.seedFrom("./db/seeds.sql")
     // Find all the pets ordering by the lowest price to the highest price.
     await orm.selectAndOrder("animal_name", "pets", "price");
 
@@ -42,3 +47,5 @@ async function main() {
 
     await orm.close()
 }
+
+main()

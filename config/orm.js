@@ -10,6 +10,10 @@ async function close() {
   return await connection.close()
 }
 
+async function seedFrom(filePath) {
+  return await connection.seedFrom(filePath)
+}
+
 async function selectWhere(tableInput, colToSearch, valOfCol) {
     var queryString = "SELECT * FROM ?? WHERE ?? = ?"
     let results = await connection.query(queryString, [tableInput, colToSearch, valOfCol]);
@@ -34,6 +38,7 @@ async function findWhoHasMost(tableOneCol, tableTwoForeignKey, tableOne, tableTw
 var orm = {}
 orm.connect        = connect
 orm.close          = close
+orm.seedFrom       = seedFrom
 orm.selectWhere    = selectWhere
 orm.selectAndOrder = selectAndOrder
 orm.findWhoHasMost = findWhoHasMost
