@@ -3,10 +3,10 @@
 <button id="abutton">Click Me</button>
 
 <div>Uneaten</div>
-<div>
+<div id="uneaten-parent">
   {{#each allfood}}
     {{#unless eaten}}
-  	<div>{{this.id}}: {{this.food}}</div> <button>Eat it!</button>
+  	<div>{{this.id}}: {{this.food}}</div> <button data-id="{{this.id}}">Eat it!</button>
     {{/unless}}
   {{/each}}
 </div>
@@ -14,10 +14,12 @@
 <hr/><hr/><hr/>
 
 <div>Already Eaten</div>
-<div>
+<div id="eaten-parent">
   {{#each allfood}}
     {{#if eaten}}
-  	<del>{{this.id}}: {{this.food}}</del>
+    <button data-id="{{this.id}}" style="text-decoration:line-through;">
+  	{{this.id}}: {{this.food}}
+    </button>
     {{/if}}
   {{/each}}
 </div>
