@@ -32,9 +32,16 @@ main().then(x => {
 async function main() {
     //await orm.query("DROP DATABASE IF EXISTS pets_db;")
     
-    // I shouldn't do this unconditionally
-    await orm.seedFrom("./db/schema.sql")
-    await orm.seedFrom("./db/seeds.sql")
+    const seed = process.argv.find(arg => arg === "seed");
+    const onlySeed = process.argv.find(arg => arg === "onlySeed");
+    if(seed || onlySeed) {
+        await orm.seedFrom("./db/schema.sql")
+        await orm.seedFrom("./db/seeds.sql")
+    }
+    if(onlySeed) {
+        await orm.close()
+        return;
+    }
     
     await orm.useBurgersDatabase()
     // Find all the pets ordering by the lowest price to the highest price.
