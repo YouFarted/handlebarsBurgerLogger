@@ -36,16 +36,19 @@ async function selectAndOrder(whatToSelect, table, orderCol) {
     let result = await connection.query(queryString, [whatToSelect, table, orderCol])
     console.log(result)
 }
-async function findWhoHasMost(tableOneCol, tableTwoForeignKey, tableOne, tableTwo) {
-    var queryString =
-      "SELECT ??, COUNT(??) AS count FROM ?? LEFT JOIN ?? ON ??.??= ??.id GROUP BY ?? ORDER BY count DESC LIMIT 1";
 
-    let result = await connection.query(
-      queryString,
-      [tableOneCol, tableOneCol, tableOne, tableTwo, tableTwo, tableTwoForeignKey, tableOne, tableOneCol]
-    )
-    console.log(result)
+async function updateOne(tableInput, updateToValue, matchCriteria) {
+  // is '?' sufficient or do I need '??' or must I string replace?
+  const queryString = "UPDATE ?? SET ? WHERE ??";
+
+  let result = await connection.query(
+    queryString,
+    [tableOneCol, updateToValue, matchCriteria]
+  );
+
+  return result;
 }
+
 var orm = {}
 orm.connect            = connect;
 orm.close              = close;
@@ -55,5 +58,6 @@ orm.selectAndOrder     = selectAndOrder;
 orm.findWhoHasMost     = findWhoHasMost;
 orm.useBurgersDatabase = useBurgersDatabase;
 orm.selectAll          = selectAll;
+orm.updateOne          = updateOne;
 
 module.exports = orm;
