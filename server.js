@@ -3,6 +3,9 @@ const path = require('path')
 const orm = require("./config/orm.js")
 const express = require("express")
 const exphbs = require("express-handlebars")
+const apiRoutes = require("./routes/api-routes");
+require('dotenv').config();
+
 
 
 var app = express();
@@ -18,15 +21,17 @@ app.use(express.static("public"));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
-require("./routes/api-routes.js")(app);
+app.use(apiRoutes);
 
 app.get("/", function(req, res) {
-    //res.end('<HTML><head><title>the title</title></head><body>the body</body></HTML>')
-    res.render("index", { allfood: [
-        {id:1, food: "stuff", eaten: false},
+    // TODO connect this to my database
+    let allfood = [
+        {id:1, food:"stuff", eaten: false},
         {id:2, food:"other stuff", eaten: false},
         {id:3, food:"an eaten food", eaten: true},
-    ] });
+    ];
+
+    res.render("index", { allfood:allfood });
 })
 
 app.post("/", function(req, res) {
