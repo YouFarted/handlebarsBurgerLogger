@@ -6,8 +6,8 @@ async function connect() {
   return await connection.connect()
 }
 
-async function usePetsDatabase(){
-  await connection.query("USE pets_db")
+async function useBurgersDatabase(){
+  await connection.query("USE burgers")
 }
 
 async function close() {
@@ -23,6 +23,13 @@ async function selectWhere(tableInput, colToSearch, valOfCol) {
     let results = await connection.query(queryString, [tableInput, colToSearch, valOfCol]);
     console.log(results)
 }
+
+async function selectAll(tableInput) {
+  var queryString = "SELECT * FROM ??"
+  let results = await connection.query(queryString, [tableInput]);
+  return results;
+}
+
 async function selectAndOrder(whatToSelect, table, orderCol) {
     var queryString = "SELECT ?? FROM ?? ORDER BY ?? DESC"
     console.log(queryString)
@@ -40,12 +47,13 @@ async function findWhoHasMost(tableOneCol, tableTwoForeignKey, tableOne, tableTw
     console.log(result)
 }
 var orm = {}
-orm.connect         = connect
-orm.close           = close
-orm.seedFrom        = seedFrom
-orm.selectWhere     = selectWhere
-orm.selectAndOrder  = selectAndOrder
-orm.findWhoHasMost  = findWhoHasMost
-orm.usePetsDatabase = usePetsDatabase
+orm.connect            = connect;
+orm.close              = close;
+orm.seedFrom           = seedFrom;
+orm.selectWhere        = selectWhere;
+orm.selectAndOrder     = selectAndOrder;
+orm.findWhoHasMost     = findWhoHasMost;
+orm.useBurgersDatabase = useBurgersDatabase;
+orm.selectAll          = selectAll;
 
 module.exports = orm;

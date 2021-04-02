@@ -1,22 +1,12 @@
 ### Schema
-DROP DATABASE IF EXISTS pets_db;
-CREATE DATABASE pets_db;
-USE pets_db;
+DROP DATABASE IF EXISTS burgers;
+CREATE DATABASE burgers;
+USE burgers;
 
-CREATE TABLE buyers
+CREATE TABLE burgers
 (
 	id int NOT NULL AUTO_INCREMENT,
-	buyer_name varchar(255) NOT NULL,
+	name varchar(255) NOT NULL,
+	eaten boolean DEFAULT(0) NOT NULL,
 	PRIMARY KEY (id)
-);
-
-CREATE TABLE pets
-(
-	id int NOT NULL AUTO_INCREMENT,
-	animal_breed varchar(255) NOT NULL,
-	animal_name varchar(255) NOT NULL,
-	price int NOT NULL,
-	buyer_id int NOT NULL,
-	PRIMARY KEY (id),
-	FOREIGN KEY (buyer_id) REFERENCES buyers(id)
 );
