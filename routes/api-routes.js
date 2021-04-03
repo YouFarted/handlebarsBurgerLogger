@@ -55,7 +55,7 @@ router.put("/api/burgers/:id", async function (req, res) {
     // app.use(express.urlencoded({ extended: true }));
     // would make this unnecessary but, sadly, one would be wrong.
 
-    const jsonParsedEaten = JSON.parse(req.body.eaten);
+    const jsonParsedDevoured = JSON.parse(req.body.devoured);
 
     // Don't let the sql schema fool you, mysql actually treats boolean rows as 
     // tinyints.  Even when you define a column in the schema to have type
@@ -63,9 +63,9 @@ router.put("/api/burgers/:id", async function (req, res) {
     // a value of true-or-false is sent.  It needs 0-or-1 to go in.
     // these are pathetic, half-baked semantics if you ask me.
 
-    const eaten = jsonParsedEaten ? 1 : 0;
+    const devoured = jsonParsedDevoured ? 1 : 0;
 
-    const updateResults = await burger.updateOne({ eaten: eaten }, whereCondition);
+    const updateResults = await burger.updateOne({ devoured: devoured }, whereCondition);
     res.json(updateResults);
   } catch (e) {
     console.error(e);

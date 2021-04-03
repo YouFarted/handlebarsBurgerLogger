@@ -8,10 +8,10 @@
 </form>
 <br/>
 
-<div>Uneaten</div>
-<div id="uneaten-parent">
+<div>Undevoured</div>
+<div id="undevoured-parent">
   {{#each burgers}}
-    {{#unless eaten}}
+    {{#unless devoured}}
   	<div>{{this.id}}: {{this.name}}</div> <button data-id="{{this.id}}">Eat it!</button>
     {{/unless}}
   {{/each}}
@@ -19,10 +19,10 @@
 
 <hr/>
 
-<div>Already Eaten</div>
-<div id="eaten-parent">
+<div>Already devoured</div>
+<div id="devoured-parent">
   {{#each burgers}}
-    {{#if eaten}}
+    {{#if devoured}}
     <div style="text-decoration: line-through;">{{this.id}}: {{this.name}}</div>
     <button data-id="{{this.id}}">uneat it!</button>
     {{/if}}

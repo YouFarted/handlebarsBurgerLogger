@@ -1,11 +1,11 @@
-const jqEatenParent = $("#eaten-parent");
-const jqUneatenParent = $("#uneaten-parent");
+const jqdevouredParent = $("#devoured-parent");
+const jqUndevouredParent = $("#undevoured-parent");
 const jqAddBurgerForm = $("#add-new-burger-form");
 const jqFormBurgerName = $("#form-burger-name");
 
 function main() {
 
-    jqEatenParent.on("click", async function (ev) {
+    jqdevouredParent.on("click", async function (ev) {
         try {
             ev.preventDefault();
             const target = ev.target;
@@ -13,13 +13,13 @@ function main() {
             if (target.type !== "submit") {
                 return;
             }
-            console.log("You clicked on one of my eaten children");
+            console.log("You clicked on one of my devoured children");
             const itemId = target.getAttribute("data-id");
             console.log("data-id: ", itemId);
-            // clicking on an eaten one makes it restore to uneaten.
+            // clicking on an devoured one makes it restore to uneaten.
             // <shrugs> a little funny, right? !!!!
 
-            const ajaxPutResults = await $.ajax(`/api/burgers/${itemId}`, { method: "PUT", data: { eaten: false } });
+            const ajaxPutResults = await $.ajax(`/api/burgers/${itemId}`, { method: "PUT", data: { devoured: false } });
 
             console.log("ajaxPutResults: ", ajaxPutResults);
             location.reload();
@@ -36,20 +36,20 @@ function main() {
             if (target.type !== "submit") {
                 return;
             }
-            console.log("You clicked on one of my uneaten children");
+            console.log("You clicked on one of my undevoured children");
             console.log("data-id: ", target.getAttribute("data-id"));
 
 
             const itemId = target.getAttribute("data-id");
             console.log("data-id: ", itemId);
-            // clicking on an uneaten one EATS IT.
+            // clicking on an undevoured one EATS IT.
 
-            const ajaxPutResults = await $.ajax(`/api/burgers/${itemId}`, { method: "PUT", data: { eaten: true } });
+            const ajaxPutResults = await $.ajax(`/api/burgers/${itemId}`, { method: "PUT", data: { devoured: true } });
 
             console.log("ajaxPutResults: ", ajaxPutResults);
             location.reload();
         } catch (ex) {
-            console.error("UneatenParent's bubbled click event blew up", ex);
+            console.error("UndevouredParent's bubbled click event blew up", ex);
         }
     });
     jqAddBurgerForm.on("submit", async function(ev){
