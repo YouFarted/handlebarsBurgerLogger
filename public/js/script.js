@@ -1,11 +1,11 @@
-const jqdevouredParent = $("#devoured-parent");
+const jqDevouredParent = $("#devoured-parent");
 const jqUndevouredParent = $("#undevoured-parent");
 const jqAddBurgerForm = $("#add-new-burger-form");
 const jqFormBurgerName = $("#form-burger-name");
 
 function main() {
 
-    jqdevouredParent.on("click", async function (ev) {
+    jqDevouredParent.on("click", async function (ev) {
         try {
             ev.preventDefault();
             const target = ev.target;
@@ -16,7 +16,7 @@ function main() {
             console.log("You clicked on one of my devoured children");
             const itemId = target.getAttribute("data-id");
             console.log("data-id: ", itemId);
-            // clicking on an devoured one makes it restore to uneaten.
+            // clicking on an devoured one makes it restore to undevoured.
             // <shrugs> a little funny, right? !!!!
 
             const ajaxPutResults = await $.ajax(`/api/burgers/${itemId}`, { method: "PUT", data: { devoured: false } });
@@ -28,7 +28,7 @@ function main() {
             console.error(ex);
         }
     });
-    jqUneatenParent.on("click", async function (ev) {
+    jqUndevouredParent.on("click", async function (ev) {
         try {
             ev.preventDefault();
             const target = ev.target;
