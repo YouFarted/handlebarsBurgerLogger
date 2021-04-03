@@ -1,29 +1,36 @@
 const jqEatenParent = $("#eaten-parent");
 const jqUneatenParent = $("#uneaten-parent");
 
-
-
 function main() {
-    $('#abutton').click(function(ev){
-        alert("clicky-clicky")
-    })
-    jqEatenParent.on("click", function(ev){
-        ev.preventDefault();
-        let target = ev.target;
-        console.log("ev.target.type:", ev.target.type);
-        if(ev.target.type !== "submit")
-        {
-            return;
+    
+    jqEatenParent.on("click", async function (ev) {
+        try {
+            ev.preventDefault();
+            const target = ev.target;
+            console.log("ev.target.type:", ev.target.type);
+            if (target.type !== "submit") {
+                return;
+            }
+            console.log("You clicked on one of my eaten children");
+            const itemId = target.getAttribute("data-id");
+            console.log("data-id: ", itemId);
+            // clicking on an eaten one makes it restore to uneaten.
+            // <shrugs> a little funny, right? !!!!
+
+            const ajaxPutResults = await $.ajax(`/api/burgers/${itemId}`, { method: "PUT", data: { eaten: false } });
+
+            console.log("ajaxPutResults: ", ajaxPutResults);
+            //location.reload(); later - I want to see the log before I go full-forwards
         }
-        console.log("You clicked on one of my eaten children");
-        console.log("data-id: ", target.getAttribute("data-id"));
+        catch (ex) {
+            console.error(ex);
+        }
     });
-    jqUneatenParent.on("click", function(ev){
+    jqUneatenParent.on("click", function (ev) {
         ev.preventDefault();
-        let target = ev.target;
+        const target = ev.target;
         console.log("ev.target.type:", ev.target.type);
-        if(ev.target.type !== "submit")
-        {
+        if (target.type !== "submit") {
             return;
         }
         console.log("You clicked on one of my uneaten children");
@@ -31,7 +38,9 @@ function main() {
     });
 }
 
-$(function (){
+$(function () {
+    
     main();
+    
 });
 

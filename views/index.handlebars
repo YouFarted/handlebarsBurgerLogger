@@ -1,12 +1,10 @@
 <h1>Eat-Da-Burger</h1>
 
-<button id="abutton">Click Me</button>
-
 <div>Uneaten</div>
-<div id="uneaten">
-  {{#each allfood}}
+<div id="uneaten-parent">
+  {{#each burgers}}
     {{#unless eaten}}
-  	<div>{{this.id}}: {{this.name}}</div> <button id="{{this.id}}" data-id="{{this.id}}">Eat it!</button>
+  	<div>{{this.id}}: {{this.name}}</div> <button data-id="{{this.id}}">Eat it!</button>
     {{/unless}}
   {{/each}}
 </div>
@@ -14,10 +12,11 @@
 <hr/><hr/><hr/>
 
 <div>Already Eaten</div>
-<div id="eaten">
-  {{#each allfood}}
+<div id="eaten-parent">
+  {{#each burgers}}
     {{#if eaten}}
-  	<del>{{this.id}}: {{this.name}}</del>
+    <div style="text-decoration: line-through;">{{this.id}}: {{this.name}}</div>
+    <button data-id="{{this.id}}">uneat it!</button>
     {{/if}}
   {{/each}}
 </div>

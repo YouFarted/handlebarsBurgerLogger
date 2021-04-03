@@ -27,33 +27,40 @@ main().then(x => {
     // hanging events cause the process to stay alive
     // it is meant as a top-level entrypoint.  And, in fact, it kicks off the server
 }).catch(e => {
-    console.error("Uncaught exception made it to the top: ",e);
+    console.error("Uncaught exception made it to the top: ", e);
 });
 
 async function main() {
 
-    const seed = process.argv.find(arg => arg === "seed");
-    const onlySeed = process.argv.find(arg => arg === "onlySeed");
-    if(seed || onlySeed) {
-        await orm.seedFrom("./db/schema.sql")
-        await orm.seedFrom("./db/seeds.sql")
-    }
-    if(onlySeed) {
-        await orm.close()
-        return;
-    }
-    
-    await orm.useBurgersDatabase()
-    
-    let allfood = await burger.selectAll();
+    try {
+        const seed = process.argv.find(arg => arg === "seed");
+        const onlySeed = process.argv.find(arg => arg === "onlySeed");
+        if (seed || onlySeed) {
+            await orm.seedFrom("./db/schema.sql")
+            await orm.seedFrom("./db/seeds.sql")
+        }
+        if (onlySeed) {
+            await orm.close()
+            return;
+        }
 
-    console.log("allfood: ", allfood);
-    
-    app.get("/", function(req, res) {
-        res.render("index", { allfood: allfood });
+        await orm.useBurgersDatabase()
+    } catch (ex) {
+        console.err("exception during async server startup: ", ex);
+    }
+
+    app.get("/", async function (req, res) {
+
+        try {
+            const burgers = await burger.selectAll();
+            console.log("burgers: ", burgers);
+            res.render("index", { burgers: burgers });
+        } catch (ex) {
+            res.status(500).json(ex);
+        }
     })
 
-    app.listen(PORT, function() {
+    app.listen(PORT, function () {
         console.log("App listening on PORT " + PORT);
-      });   
+    });
 }

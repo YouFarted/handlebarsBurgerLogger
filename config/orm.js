@@ -37,13 +37,42 @@ async function selectAndOrder(whatToSelect, table, orderCol) {
     console.log(result)
 }
 
-async function updateOne(tableInput, updateToValue, matchCriteria) {
+async function updateOne(tableInput, updateToValue, whereCondition) {
   // is '?' sufficient or do I need '??' or must I string replace?
-  const queryString = "UPDATE ?? SET ? WHERE ??";
+  let queryString = "UPDATE ?? SET ? WHERE ";
+
+  // whereCondition is an object.  I need to convert it
+  console.log("whereCondition: ", whereCondition);
+
+  const whereKeys = Object.keys(whereCondition);
+  if(whereKeys.length !== 1) {
+    throw Error("only a single condition is supported until I care to chare to change it");
+  }
+  let conditionText = "";
+
+  for(let i=0; i<whereKeys.length; ++i) {
+    const key = whereKeys[i];
+    const value = whereCondition[key];
+    conditionText += key;
+    conditionText += " = ";
+    conditionText += value;
+    // I should add some AND's to support multiple conditions
+  }
+  queryString += conditionText;
 
   let result = await connection.query(
     queryString,
-    [tableOneCol, updateToValue, matchCriteria]
+    [tableInput, updateToValue]
+  );
+
+  return result;
+}
+
+async function deleteOne(tableInput, id) {
+  const queryString = "DELETE from ?? WHERE ID = ?";
+  let result = await connection.query(
+    queryString,
+    [tableInput, id]
   );
 
   return result;
@@ -55,9 +84,9 @@ orm.close              = close;
 orm.seedFrom           = seedFrom;
 orm.selectWhere        = selectWhere;
 orm.selectAndOrder     = selectAndOrder;
-orm.findWhoHasMost     = findWhoHasMost;
 orm.useBurgersDatabase = useBurgersDatabase;
 orm.selectAll          = selectAll;
 orm.updateOne          = updateOne;
+orm.deleteOne          = deleteOne;
 
 module.exports = orm;
