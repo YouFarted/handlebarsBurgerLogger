@@ -1,5 +1,13 @@
 <h1>Eat-Da-Burger</h1>
 
+<form id="add-new-burger-form">
+  Add a new burger to the menu<br/>
+  <lable for="burger-name">Name</lable>
+  <input type="text" id="form-burger-name" name="burger-name"></input><br/>
+  <button type="submit" id="burger-submit">Add</button>
+</form>
+<br/>
+
 <div>Uneaten</div>
 <div id="uneaten-parent">
   {{#each burgers}}
@@ -9,7 +17,7 @@
   {{/each}}
 </div>
 
-<hr/><hr/><hr/>
+<hr/>
 
 <div>Already Eaten</div>
 <div id="eaten-parent">

@@ -31,50 +31,50 @@ router.put("/api/todos", function (req, res) {
 
 
 // Create
-router.post("/api/burgers", async function(req, res) {
-    
-  const insertResult = await burger.insertOne(
-    
-    req.body,
-  );
-
-  res.json(insertResult);
+router.post("/api/burgers", async function (req, res) {
+  try {
+    const insertResult = await burger.insertOne(req.body.name);
+    res.json(insertResult);
+  } catch (ex) {
+    console.error(ex);
+    res.status(500).json(ex);
+  }
 });
 
 // Read
-router.get("/api/burgers", async function(req, res) {
+router.get("/api/burgers", async function (req, res) {
 
 });
 
 // Update
-router.put("/api/burgers/:id", async function(req, res) {
+router.put("/api/burgers/:id", async function (req, res) {
   try {
-  var whereCondition = {id: req.params.id};
-  
-  // one would think the use of
-  // app.use(express.urlencoded({ extended: true }));
-  // would make this unnecessary but, sadly, one would be wrong.
+    var whereCondition = { id: req.params.id };
 
-  const jsonParsedEaten = JSON.parse(req.body.eaten);
+    // one would think the use of
+    // app.use(express.urlencoded({ extended: true }));
+    // would make this unnecessary but, sadly, one would be wrong.
 
-  // Don't let the sql schema fool you, mysql actually treats boolean rows as 
-  // tinyints.  Even when you define a column in the schema to have type
-  // boolean as i've done, the mysql parser STILL trips all over itself when
-  // a value of true-or-false is sent.  It needs 0-or-1 to go in.
-  // these are pathetic, half-baked semantics if you ask me.
+    const jsonParsedEaten = JSON.parse(req.body.eaten);
 
-  const eaten = jsonParsedEaten ? 1 : 0;
-  
-  const updateResults = await burger.updateOne({eaten: eaten}, whereCondition);
-  res.json(updateResults);
-  } catch(e) {
+    // Don't let the sql schema fool you, mysql actually treats boolean rows as 
+    // tinyints.  Even when you define a column in the schema to have type
+    // boolean as i've done, the mysql parser STILL trips all over itself when
+    // a value of true-or-false is sent.  It needs 0-or-1 to go in.
+    // these are pathetic, half-baked semantics if you ask me.
+
+    const eaten = jsonParsedEaten ? 1 : 0;
+
+    const updateResults = await burger.updateOne({ eaten: eaten }, whereCondition);
+    res.json(updateResults);
+  } catch (e) {
     console.error(e);
     res.status(500).json(e);
   }
 });
 
 // Delete
-router.delete("/api/burgers/:id", async function(req, res) {
+router.delete("/api/burgers/:id", async function (req, res) {
   const deleteResult = await burger.deleteOne(req.params.id)
 });
 

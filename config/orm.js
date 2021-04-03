@@ -30,19 +30,17 @@ async function selectAll(tableInput) {
   return results;
 }
 
-async function selectAndOrder(whatToSelect, table, orderCol) {
-    var queryString = "SELECT ?? FROM ?? ORDER BY ?? DESC"
-    console.log(queryString)
-    let result = await connection.query(queryString, [whatToSelect, table, orderCol])
-    console.log(result)
+async function insertOne(tableInput, setData) {
+  let queryString = "INSERT INTO ?? SET ?";
+  
+  const result = await connection.query(queryString, [tableInput, setData] )
+  return result;  
 }
 
 async function updateOne(tableInput, updateToValue, whereCondition) {
-  // is '?' sufficient or do I need '??' or must I string replace?
-  let queryString = "UPDATE ?? SET ? WHERE ";
-
-  // whereCondition is an object.  I need to convert it
-  console.log("whereCondition: ", whereCondition);
+  // The '?' or '??' are insufficient to include the part after the where. 
+  // Weak.
+  const partialQueryString = "UPDATE ?? SET ? WHERE ";
 
   const whereKeys = Object.keys(whereCondition);
   if(whereKeys.length !== 1) {
@@ -58,10 +56,13 @@ async function updateOne(tableInput, updateToValue, whereCondition) {
     conditionText += value;
     // I should add some AND's to support multiple conditions
   }
-  queryString += conditionText;
 
+  // This is kind of sleazy and if the whereCondition was particularly dodgy,
+  // it could open this up to a sql injection.  It could be wise to look into
+  // this possibility more but I consider the problem outside the scope of this
+  // project
   let result = await connection.query(
-    queryString,
+    partialQueryString + conditionText,
     [tableInput, updateToValue]
   );
 
@@ -83,10 +84,10 @@ orm.connect            = connect;
 orm.close              = close;
 orm.seedFrom           = seedFrom;
 orm.selectWhere        = selectWhere;
-orm.selectAndOrder     = selectAndOrder;
 orm.useBurgersDatabase = useBurgersDatabase;
 orm.selectAll          = selectAll;
 orm.updateOne          = updateOne;
 orm.deleteOne          = deleteOne;
+orm.insertOne          = insertOne;
 
 module.exports = orm;

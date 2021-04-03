@@ -5,7 +5,7 @@ const burgerModel = {
     // Create
     insertOne: async function (name)
     {
-
+        return await orm.insertOne("burgers", {name: name});
     },
 
     // Read
@@ -15,8 +15,6 @@ const burgerModel = {
 
     //Update
     updateOne: async function (updateToValue, whereCondition) {
-        console.log("in burger.updateOne, updateToValue=", updateToValue);
-        console.log("in burger.updateOne, whereCondition=", whereCondition);
         return await orm.updateOne("burgers", updateToValue, whereCondition);
     },
 

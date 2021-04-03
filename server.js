@@ -53,7 +53,7 @@ async function main() {
 
         try {
             const burgers = await burger.selectAll();
-            console.log("burgers: ", burgers);
+            
             res.render("index", { burgers: burgers });
         } catch (ex) {
             res.status(500).json(ex);
