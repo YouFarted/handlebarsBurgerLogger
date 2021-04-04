@@ -1,14 +1,14 @@
 "use strict"
-/*
+
 const path = require('path')
 const orm = require("./config/orm.js")
-*/
+
 const express = require("express")
-/*
+
 const exphbs = require("express-handlebars")
 const apiRoutes = require("./routes/api-routes.js")
 const burger = require("./models/burger");
-*/
+
 
 
 var app = express();
@@ -18,7 +18,7 @@ var PORT = process.env.PORT || 8080;
 console.log(`process.env.PORT is set to ${process.env.PORT}`);
 
 // Sets up the Express app to handle data parsing
-/*
+
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -28,7 +28,7 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 app.use(apiRoutes);
-*/
+
 
 main().then(x => {
     // console.log("this'll actually happen because main's promise DOES complete");
@@ -42,6 +42,7 @@ function isUsingLocalMysql(){
     return (typeof(orm.connection.config) !== "string");
 }
 
+/*
 async function main() {
 
     const seedOnly = process.argv.find(arg => arg === "seedOnly");
@@ -61,8 +62,9 @@ async function main() {
         console.log("App listening on PORT " + PORT);
     });
 }
+*/
 
-/*
+
 async function main() {
 
     try {
@@ -72,7 +74,7 @@ async function main() {
         // database so that I may create/drop the burgers database at will
         // in its entirety
         
-        /*
+
         if (isUsingLocalMysql()) {
             // JAWS connects me to a fixed database and USE <db-name>
             // is inappropriate
@@ -117,4 +119,3 @@ async function main() {
         console.log("App listening on PORT " + PORT);
     });
 }
-*/
