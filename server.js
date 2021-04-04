@@ -11,6 +11,8 @@ var app = express();
 
 var PORT = process.env.PORT || 8080;
 
+console.log(`process.env.PORT is set to ${process.env.PORT}`);
+
 // Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
