@@ -13,9 +13,9 @@
     "nodemon": "^2.0.7"
   },
   "scripts": {
-    "start": "nodemon ./server.js",
-    "seed" :" node ./server.js seedOnly",
-    "test":  "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./server.js",
+    "seed": " node ./server.js seedOnly",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "heroku-postbuild": "npm run seed"
   },
   "author": "",
