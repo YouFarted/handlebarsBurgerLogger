@@ -74,6 +74,7 @@ async function main() {
         console.error("exception during async server startup: ", ex);
     }
 
+    /*
     app.get("/", async function (req, res) {
 
         try {
@@ -84,6 +85,14 @@ async function main() {
             res.status(500).json(ex);
         }
     })
+    */
+    app.get("/", async function (req, res) {
+        try {
+            res.end("well, a request to / worked");
+        } catch (ex) {
+            console.error("ex: ", ex);
+        }
+    });
 
     app.listen(PORT, function () {
         console.log("App listening on PORT " + PORT);
