@@ -16,7 +16,7 @@
     "start": "nodemon ./server.js",
     "seed" :" node ./server.js seedOnly",
     "test":  "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "node ./server.js onlySeed"
+    "heroku-postbuild": "npm run seed"
   },
   "author": "",
   "license": "ISC"
