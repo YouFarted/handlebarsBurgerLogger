@@ -43,6 +43,13 @@ function isUsingLocalMysql(){
 }
 
 async function main() {
+
+    const seedOnly = process.argv.find(arg => arg === "seedOnly");
+    if(seedOnly)
+    {
+        return;
+    }
+
     app.get("/", async function (req, res) {
         try {
             res.end("well, a request to / worked");
