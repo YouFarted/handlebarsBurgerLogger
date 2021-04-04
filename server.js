@@ -1,10 +1,14 @@
 "use strict"
+/*
 const path = require('path')
 const orm = require("./config/orm.js")
+*/
 const express = require("express")
+/*
 const exphbs = require("express-handlebars")
 const apiRoutes = require("./routes/api-routes.js")
 const burger = require("./models/burger");
+*/
 
 
 var app = express();
@@ -14,6 +18,7 @@ var PORT = process.env.PORT || 8080;
 console.log(`process.env.PORT is set to ${process.env.PORT}`);
 
 // Sets up the Express app to handle data parsing
+/*
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -23,6 +28,7 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
 
 app.use(apiRoutes);
+*/
 
 main().then(x => {
     // console.log("this'll actually happen because main's promise DOES complete");
@@ -36,6 +42,20 @@ function isUsingLocalMysql(){
     return (typeof(orm.connection.config) !== "string");
 }
 
+async function main() {
+    app.get("/", async function (req, res) {
+        try {
+            res.end("well, a request to / worked");
+        } catch (ex) {
+            console.error("ex: ", ex);
+        }
+    });
+    app.listen(PORT, function () {
+        console.log("App listening on PORT " + PORT);
+    });
+}
+
+/*
 async function main() {
 
     try {
@@ -52,7 +72,6 @@ async function main() {
             await orm.dropAndRecreateBurgersDatabase();
             await orm.useBurgersDatabase();
         }
-        */
 
         const seed = process.argv.find(arg => arg === "seed");
         const seedOnly = process.argv.find(arg => arg === "seedOnly");
@@ -74,7 +93,7 @@ async function main() {
         console.error("exception during async server startup: ", ex);
     }
 
-    /*
+  
     app.get("/", async function (req, res) {
 
         try {
@@ -85,16 +104,10 @@ async function main() {
             res.status(500).json(ex);
         }
     })
-    */
-    app.get("/", async function (req, res) {
-        try {
-            res.end("well, a request to / worked");
-        } catch (ex) {
-            console.error("ex: ", ex);
-        }
-    });
+  
 
     app.listen(PORT, function () {
         console.log("App listening on PORT " + PORT);
     });
 }
+*/
