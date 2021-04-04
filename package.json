@@ -14,8 +14,9 @@
   },
   "scripts": {
     "start": "nodemon ./server.js",
-    "seed" :" node ./server.js onlySeed",
-    "test":  "echo \"Error: no test specified\" && exit 1"
+    "seed" :" node ./server.js seedOnly",
+    "test":  "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "node ./server.js onlySeed"
   },
   "author": "",
   "license": "ISC"

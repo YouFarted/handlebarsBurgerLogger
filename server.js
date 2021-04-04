@@ -30,23 +30,46 @@ main().then(x => {
     console.error("Uncaught exception made it to the top: ", e);
 });
 
+function isUsingLocalMysql(){
+    return (typeof(orm.connection.config) !== "string");
+}
+
 async function main() {
 
     try {
-        const seed = process.argv.find(arg => arg === "seed");
-        const onlySeed = process.argv.find(arg => arg === "onlySeed");
-        if (seed || onlySeed) {
-            await orm.seedFrom("./db/schema.sql")
-            await orm.seedFrom("./db/seeds.sql")
+        // if it is a string, it is using JAWS_DB which puts us in some
+        // fixed database, making USE <database> inappropriate
+        // for local mysql connections, however, I connect using the sys
+        // database so that I may create/drop the burgers database at will
+        // in its entirety
+        
+        /*
+        if (isUsingLocalMysql()) {
+            // JAWS connects me to a fixed database and USE <db-name>
+            // is inappropriate
+            await orm.dropAndRecreateBurgersDatabase();
+            await orm.useBurgersDatabase();
         }
-        if (onlySeed) {
-            await orm.close()
+        */
+
+        const seed = process.argv.find(arg => arg === "seed");
+        const seedOnly = process.argv.find(arg => arg === "seedOnly");
+        if (seed || seedOnly) {
+
+            if (isUsingLocalMysql()) {
+                await orm.dropAndRecreateBurgersDatabase();
+                await orm.useBurgersDatabase();
+            }
+            await orm.seedFrom("./db/schema.sql");
+            await orm.seedFrom("./db/seeds.sql");            
+        }
+        if (seedOnly) {
+            await orm.close();
             return;
         }
 
-        await orm.useBurgersDatabase()
     } catch (ex) {
-        console.err("exception during async server startup: ", ex);
+        console.error("exception during async server startup: ", ex);
     }
 
     app.get("/", async function (req, res) {

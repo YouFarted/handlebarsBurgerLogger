@@ -1,4 +1,4 @@
-var connection = require("./connection.js");
+const connection = require("./connection.js");
 
 // Object Relational Mapper (ORM)
 
@@ -6,26 +6,31 @@ async function connect() {
   return await connection.connect()
 }
 
+async function dropAndRecreateBurgersDatabase() {
+  await connection.query("DROP DATABASE IF EXISTS burgers");
+  await connection.query("CREATE DATABASE `burgers`");
+}
+
 async function useBurgersDatabase(){
-  await connection.query("USE burgers")
+  await connection.query("USE burgers");
 }
 
 async function close() {
-  return await connection.close()
+  return await connection.close();
 }
 
 async function seedFrom(filePath) {
-  return await connection.seedFrom(filePath)
+  return await connection.seedFrom(filePath);
 }
 
 async function selectWhere(tableInput, colToSearch, valOfCol) {
-    var queryString = "SELECT * FROM ?? WHERE ?? = ?"
+    var queryString = "SELECT * FROM ?? WHERE ?? = ?";
     let results = await connection.query(queryString, [tableInput, colToSearch, valOfCol]);
-    console.log(results)
+    console.log(results);
 }
 
 async function selectAll(tableInput) {
-  var queryString = "SELECT * FROM ??"
+  var queryString = "SELECT * FROM ??";
   let results = await connection.query(queryString, [tableInput]);
   return results;
 }
@@ -89,5 +94,7 @@ orm.selectAll          = selectAll;
 orm.updateOne          = updateOne;
 orm.deleteOne          = deleteOne;
 orm.insertOne          = insertOne;
+orm.connection         = connection;
+orm.dropAndRecreateBurgersDatabase  = dropAndRecreateBurgersDatabase;
 
 module.exports = orm;
